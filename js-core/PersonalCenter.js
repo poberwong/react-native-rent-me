@@ -78,12 +78,6 @@ const styles = StyleSheet.create({
   avatar: {
     height: 44,
     width: 44
-  },
-  navigationBar: {
-    position: 'absolute',
-    right: 0,
-    left: 0,
-    top: 0
   }
 })
 
