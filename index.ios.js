@@ -1,6 +1,6 @@
 'use strict'
 import React from 'react-native'
-import Current from './js-core/PersonalCenter'
+import Current from './js-core/PersonalCenter.js'
 const {
   AppRegistry,
   ListView,
@@ -14,13 +14,9 @@ class RentMe extends React.Component {
 
   render () {
     return (
-      {Current}
-    )
+        <Current/>
+      )
   }
 }
 
-const styles = StyleSheet.create({
-  
-})
-
-AppRegistry.registerComponent("RentMe", () => RentMe);
+AppRegistry.registerComponent('RentMe', () => RentMe)
