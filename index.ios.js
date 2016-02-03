@@ -1,6 +1,6 @@
 'use strict'
 import React from 'react-native'
-import Current from './js-core/PersonalCenter.js'
+import Current from './js-core/HomePage.js'
 const {
   AppRegistry,
   ListView,
