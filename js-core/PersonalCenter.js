@@ -13,6 +13,9 @@ class PersonalCenter extends React.Component {
     let backHidden = {isHide: true}
     return (
       <View style={styles.container}>
+        <NavigationBar
+          title='个人中心'
+          backHidden={backHidden.isHide}/>
         <View style={styles.content}>
           <View style={styles.itemHeader}>
             <Image style={styles.avatar} source={{uri: 'https://avatars0.githubusercontent.com/u/8554661?v=3&s=460'}}/>
@@ -40,10 +43,6 @@ class PersonalCenter extends React.Component {
           </View>
           <View style={styles.dividerLine}/>
         </View>
-        <NavigationBar
-          barStyle={styles.navigationBar}
-          title='个人中心'
-          backHidden={backHidden.isHide}/>
       </View>
       )
   }
@@ -56,8 +55,8 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     backgroundColor: 'white',
-    marginTop: 64,
-    padding: 15
+    paddingLeft: 15,
+    paddingRight: 15
   },
   itemHeader: {
     height: 60,
