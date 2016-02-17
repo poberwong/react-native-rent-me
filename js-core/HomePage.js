@@ -5,21 +5,34 @@ import Swiper from './swiper.js'
 const {
   StyleSheet,
   Dimensions,
+  ListView,
+  RefreshControl,
   Text,
+  Image,
   View
 } = React
 
 let screenWidth = Dimensions.get('window').width // 由pt转为px
+
 export default class HomePage extends React.Component {
 
   constructor (props) {
     super(props)
-
+    let data = this._getData()
     this.state = {
       leftFlex: 0,
       colorPosition0: 'red',
-      colorPosition1: 'black'
+      colorPosition1: 'black',
+      dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows(data), // 先初始化一个空的数据集合
     }
+  }
+
+  _getData () {
+    let result = []
+    for (let i = 0; i < 20; i++) {
+      result.push(i)
+    }
+    return result
   }
 
   onScroll (event) {
@@ -63,22 +76,48 @@ export default class HomePage extends React.Component {
           </View>
 
           <Swiper
-            key='swiper'
             onScroll ={this.onScroll.bind(this)}
             scrollEventThrottle ={10}
             onMomentumScrollEnd ={this._onMomentumScrollEnd}
             loop={false}>
-
-            <View style={styles.slide1}>
-              <Text style={styles.text}>Hello Swiper</Text>
-            </View>
-            <View style={styles.slide2}>
-              <Text style={styles.text}>Beautiful</Text>
-            </View>
+            <ListView
+              style={{paddingLeft: 10, paddingRight: 10}}
+              dataSource={this.state.dataSource}
+              renderRow={this._renderItem.bind(this)}/>
+            <ListView
+              style={{paddingLeft: 10, paddingRight: 10}}
+              dataSource={this.state.dataSource}
+              renderRow={this._renderItem.bind(this)}/>
           </Swiper>
         </View>
       </View>
     )
+  }
+
+  _refresh(){
+
+  }
+
+  _renderItem () {
+    return (
+      <View style={styles.itemContainer}>
+        <Image source={{uri: 'http://ww1.sinaimg.cn/large/7a8aed7bgw1f0k67zz05jj20ku0rs0y1.jpg'}} style={styles.avatar}/>
+        <View>
+          <View style={styles.itemRow}>
+            <Text>Amy</Text>
+          </View>
+          <View style={styles.itemRow}>
+            <Text>Amy</Text>
+          </View>
+          <View style={styles.itemRow}>
+            <Text>Amy</Text>
+          </View>
+          <View style={styles.itemRow}>
+            <Text>Amy</Text>
+          </View>
+        </View>
+      </View>
+      )
   }
 }
 
@@ -105,34 +144,32 @@ let styles = StyleSheet.create({
   },
   indicatorWrapper: {
     flexDirection: 'row',
-    height: 2
+    height: 2,
+    paddingRight: 10,
+    paddingLeft: 10
   },
   indicator: {
     flex: 1,
     backgroundColor: 'red'
   },
-  slide1: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#9DD6EB'
-  },
-  slide2: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#97CAE5'
-  },
-  slide3: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#92BBD9'
-  },
   text: {
     color: '#fff',
     fontSize: 30,
     fontWeight: 'bold'
+  },
+  itemContainer: {
+    backgroundColor: 'white',
+    marginTop: 10,
+    padding: 10,
+    borderRadius: 3,
+    height: 550
+  },
+  avatar: {
+    marginTop: 5,
+    flex: 1
+  },
+  itemRow: {
+    height: 20
   }
 })
 // module.exports = HomePage
