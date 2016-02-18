@@ -11,7 +11,6 @@ const {
   View
 } = React
 
-let screenWidth = Dimensions.get('window').width // 由pt转为px
 
 export default class HomePage extends React.Component {
 
@@ -58,17 +57,21 @@ export default class HomePage extends React.Component {
       <View style={styles.itemContainer}>
         <Image source={{uri: 'http://ww1.sinaimg.cn/large/7a8aed7bgw1f0k67zz05jj20ku0rs0y1.jpg'}} style={styles.avatar}/>
         <View>
-          <View style={styles.itemRow}>
-            <Text>Amy</Text>
+          <View style={[styles.itemRow, {marginTop: 5}]}>
+            <Text style={[styles.text, {fontWeight: 'bold'}]}>晴晴</Text>
+            <Text style={[styles.text, {textAlign: 'right'}]}>23  天蝎</Text>
           </View>
           <View style={styles.itemRow}>
-            <Text>Amy</Text>
+            <Text style={styles.text}>陕西 铜川</Text>
+            <Text style={[styles.text, {textAlign: 'center'}]}>Kiss</Text>
+            <Text style={[styles.text, {textAlign: 'right'}]}>160cm</Text>
           </View>
           <View style={styles.itemRow}>
-            <Text>Amy</Text>
+            <Text style={[styles.text]}>职员</Text>
+            <Text style={[styles.text, {color: 'red', textAlign: 'right'}]}>时薪: $250</Text>
           </View>
-          <View style={styles.itemRow}>
-            <Text>Amy</Text>
+          <View style={[styles.itemRow, {height: 20}]}>
+            <Text style={styles.desc}>聊聊人生, 聊聊理想</Text>
           </View>
         </View>
       </View>
@@ -84,28 +87,31 @@ let styles = StyleSheet.create({
     marginTop: 64,
     backgroundColor: '#eeeeee'
   },
-  slidingIndicatorWrapper: {
-    height: 40,
+  text: {
+    fontSize: 16,
+    color: 'black',
     flex: 1
   },
-  text: {
-    color: '#fff',
-    fontSize: 30,
-    fontWeight: 'bold'
+  desc: {
+    fontSize: 14,
+    color: 'grey'
   },
   itemContainer: {
     backgroundColor: 'white',
     marginTop: 10,
     padding: 10,
     borderRadius: 3,
-    height: 550
+    height: 600
   },
   avatar: {
     marginTop: 5,
     flex: 1
   },
   itemRow: {
-    height: 20
+    height: 25,
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center'
   }
 })
 // module.exports = HomePage
