@@ -180,6 +180,9 @@ const ScrollableTabView = React.createClass({
       containerWidth: this.state.containerWidth,
     };
 
+    if (typeof this.props.tabBarShowUnderline !== 'undefined') {
+      tabBarProps.showUnderline = this.props.tabBarShowUnderline
+    };
     if (this.props.tabBarTextSize) {
       tabBarProps.textSize = this.props.tabBarTextSize;
     }
@@ -200,10 +203,15 @@ const ScrollableTabView = React.createClass({
     }
 
     return (
-      <View style={[styles.container, this.props.style, ]} onLayout={this._handleLayout}>
+      <View style={[styles.container, this.props.style]} onLayout={this._handleLayout}>
         {this.props.tabBarPosition === 'top' ? this.renderTabBar(tabBarProps) : null}
         {this.renderScrollableContent()}
-        {this.props.tabBarPosition === 'bottom' ? this.renderTabBar(tabBarProps) : null}
+        {this.props.tabBarPosition === 'bottom'
+        ? (<View>
+          <View style={{height: 0.5, backgroundColor: '#ccc'}}/>
+          {this.renderTabBar(tabBarProps)}
+          </View>)
+        : null}
       </View>
     );
   },
@@ -223,5 +231,5 @@ const styles = StyleSheet.create({
   },
   scrollableContentAndroid: {
     flex: 1,
-  },
+  }
 });

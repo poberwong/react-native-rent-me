@@ -1,7 +1,7 @@
 'use strict'
 import React from 'react-native'
 import ScrollableTabView from './custom-views/tab-layout/index.js'
-
+import PersonalCenter from './PersonalCenter'
 const {
   StyleSheet,
   ListView,
@@ -31,7 +31,24 @@ export default class HomePage extends React.Component {
   render () {
     return (
       <View style={styles.container}>
-        <ScrollableTabView style={{marginTop: 64, backgroundColor: 'eeeeee'}}
+        <ScrollableTabView
+          tabBarPosition='bottom'
+          tabBarShowUnderline={false}
+          tabBarActiveTextColor='#8799ad'
+          tabBarInactiveTextColor='grey'
+          tabBarTextSize={16}>
+          {this._renderHomePageContent()}
+          <PersonalCenter tabLabel='个人中心'/>
+        </ScrollableTabView>
+      </View>
+    )
+  }
+
+  _renderHomePageContent () {
+    return (
+      <View style={styles.homeContainer}
+        tabLabel='首页'>
+        <ScrollableTabView style={styles.homeContent}
           tabBarUnderlineHeight={2}
           tabBarTextSize={16}
           tabBarUnderlineColor='red'
@@ -46,9 +63,8 @@ export default class HomePage extends React.Component {
             style={{paddingLeft: 10, paddingRight: 10}}
             dataSource={this.state.dataSource}
             renderRow={this._renderItem.bind(this)}/>
-        </ScrollableTabView>
-      </View>
-    )
+          </ScrollableTabView>
+        </View>)
   }
 
   _renderItem () {
@@ -82,9 +98,12 @@ let styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  content: {
+  homeContainer: {
+    flex: 1
+  },
+  homeContent: {
     marginTop: 64,
-    backgroundColor: '#eeeeee'
+    backgroundColor: '#f5fcff'
   },
   text: {
     fontSize: 16,
