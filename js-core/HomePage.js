@@ -1,16 +1,14 @@
 'use strict'
 import React from 'react-native'
-import ScrollableTabView from 'react-native-scrollable-tab-view'
+import ScrollableTabView from './custom-views/tab-layout/index.js'
 
 const {
   StyleSheet,
-  Dimensions,
   ListView,
   Text,
   Image,
   View
 } = React
-
 
 export default class HomePage extends React.Component {
 
@@ -34,9 +32,10 @@ export default class HomePage extends React.Component {
     return (
       <View style={styles.container}>
         <ScrollableTabView style={{marginTop: 64, backgroundColor: 'eeeeee'}}
+          tabBarUnderlineHeight={2}
+          tabBarTextSize={16}
           tabBarUnderlineColor='red'
-          tabBarActiveTextColor='red'
-          >
+          tabBarActiveTextColor='red'>
           <ListView
             tabLabel='妹子'
             style={{paddingLeft: 10, paddingRight: 10}}
