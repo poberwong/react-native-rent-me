@@ -8,13 +8,13 @@ const {
 	StyleSheet
 } = React
 
-class PersonalCenter extends React.Component {
+export default class RentMe extends React.Component {
   render () {
     let backHidden = {isHide: true}
     return (
       <View style={styles.container}>
         <NavigationBar
-          title='个人中心'
+          title='我要出租'
           backHidden={backHidden.isHide}/>
         <View style={styles.content}>
           <View style={styles.itemHeader}>
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     paddingRight: 15
   },
   itemHeader: {
-    height: 75,
+    height: 60,
     flexDirection: 'row',
     alignItems: 'center'
   },
@@ -80,5 +80,3 @@ const styles = StyleSheet.create({
     width: 44
   }
 })
-
-module.exports = PersonalCenter

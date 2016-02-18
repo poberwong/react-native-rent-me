@@ -1,11 +1,14 @@
 'use strict'
 import React from 'react-native'
 import ScrollableTabView from './custom-views/tab-layout/index.js'
-import PersonalCenter from './PersonalCenter'
+import PersonalCenter from './PersonalCenter.js'
+import RentMe from './RentMe.js'
+import Detail from './Detail.js'
 const {
   StyleSheet,
   ListView,
   Text,
+  TouchableOpacity,
   Image,
   View
 } = React
@@ -38,6 +41,7 @@ export default class HomePage extends React.Component {
           tabBarInactiveTextColor='grey'
           tabBarTextSize={16}>
           {this._renderHomePageContent()}
+          <RentMe tabLabel='我要出租'/>
           <PersonalCenter tabLabel='个人中心'/>
         </ScrollableTabView>
       </View>
@@ -69,29 +73,40 @@ export default class HomePage extends React.Component {
 
   _renderItem () {
     return (
-      <View style={styles.itemContainer}>
-        <Image source={{uri: 'http://ww1.sinaimg.cn/large/7a8aed7bgw1f0k67zz05jj20ku0rs0y1.jpg'}} style={styles.avatar}/>
-        <View>
-          <View style={[styles.itemRow, {marginTop: 5}]}>
-            <Text style={[styles.text, {fontWeight: 'bold'}]}>晴晴</Text>
-            <Text style={[styles.text, {textAlign: 'right'}]}>23  天蝎</Text>
-          </View>
-          <View style={styles.itemRow}>
-            <Text style={styles.text}>陕西 铜川</Text>
-            <Text style={[styles.text, {textAlign: 'center'}]}>Kiss</Text>
-            <Text style={[styles.text, {textAlign: 'right'}]}>160cm</Text>
-          </View>
-          <View style={styles.itemRow}>
-            <Text style={[styles.text]}>职员</Text>
-            <Text style={[styles.text, {color: 'red', textAlign: 'right'}]}>时薪: $250</Text>
-          </View>
-          <View style={[styles.itemRow, {height: 20}]}>
-            <Text style={styles.desc}>聊聊人生, 聊聊理想</Text>
+      <TouchableOpacity style={{marginTop: 10}}
+        activeOpacity= {0.7}
+        onPress={this._goToDetail}>
+        <View style={styles.itemContainer}>
+          <Image source={{uri: 'http://ww1.sinaimg.cn/large/7a8aed7bgw1f0k67zz05jj20ku0rs0y1.jpg'}} style={styles.avatar}/>
+          <View>
+            <View style={[styles.itemRow, {marginTop: 5}]}>
+              <Text style={[styles.text, {fontWeight: 'bold'}]}>晴晴</Text>
+              <Text style={[styles.text, {textAlign: 'right'}]}>23  天蝎</Text>
+            </View>
+            <View style={styles.itemRow}>
+              <Text style={styles.text}>陕西 铜川</Text>
+              <Text style={[styles.text, {textAlign: 'center'}]}>Kiss</Text>
+              <Text style={[styles.text, {textAlign: 'right'}]}>160cm</Text>
+            </View>
+            <View style={styles.itemRow}>
+              <Text style={[styles.text]}>职员</Text>
+              <Text style={[styles.text, {color: 'red', textAlign: 'right'}]}>时薪: $250</Text>
+            </View>
+            <View style={[styles.itemRow, {height: 20}]}>
+              <Text style={styles.desc}>聊聊人生, 聊聊理想</Text>
+            </View>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
       )
   }
+
+  _goToDetail = () => {
+    this.props.navigator.push({
+      component: Detail,
+      passProps: {hello: 'world'}
+    })
+  };
 }
 
 let styles = StyleSheet.create({
@@ -116,7 +131,6 @@ let styles = StyleSheet.create({
   },
   itemContainer: {
     backgroundColor: 'white',
-    marginTop: 10,
     padding: 10,
     borderRadius: 3,
     height: 600
