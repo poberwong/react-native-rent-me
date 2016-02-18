@@ -20,11 +20,8 @@ var styles = StyleSheet.create({
     height: 50,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    borderWidth: 1,
-    borderTopWidth: 0,
-    borderLeftWidth: 0,
-    borderRightWidth: 0,
-    borderBottomColor: '#ccc',
+    borderBottomWidth: 0.5,
+    borderBottomColor: '#ccc'
   },
 });
 
@@ -65,7 +62,7 @@ var DefaultTabBar = React.createClass({
       width: containerWidth / numberOfTabs,
       height: this.props.underlineHeight||4,
       backgroundColor: this.props.underlineColor || "navy",
-      bottom: 0,
+      bottom: 0
     };
 
     var left = this.props.scrollValue.interpolate({
