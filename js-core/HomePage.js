@@ -1,12 +1,11 @@
 'use strict'
 import React from 'react-native'
-import Swiper from './swiper.js'
+import ScrollableTabView from 'react-native-scrollable-tab-view'
 
 const {
   StyleSheet,
   Dimensions,
   ListView,
-  RefreshControl,
   Text,
   Image,
   View
@@ -20,10 +19,7 @@ export default class HomePage extends React.Component {
     super(props)
     let data = this._getData()
     this.state = {
-      leftFlex: 0,
-      colorPosition0: 'red',
-      colorPosition1: 'black',
-      dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows(data), // 先初始化一个空的数据集合
+      dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows(data) // 先初始化一个空的数据集合
     }
   }
 
@@ -35,67 +31,26 @@ export default class HomePage extends React.Component {
     return result
   }
 
-  onScroll (event) {
-    let offset = event.nativeEvent.contentOffset.x
-    let leftFlex = offset / screenWidth
-    let position0 = 'red'
-    let position1 = 'black'
-    if (leftFlex === 0) {
-      position0 = 'red'
-      position1 = 'black'
-    } else if (leftFlex === 1) {
-      position0 = 'black'
-      position1 = 'red'
-    }
-
-    this.setState({
-      leftFlex,
-      colorPosition0: position0,
-      colorPosition1: position1
-    })
-  }
-
   render () {
     return (
       <View style={styles.container}>
-        <View style={styles.content}>
-          <View style={styles.slidingIndicatorWrapper}>
-            <View style={styles.indicatorItems}>
-              <View style={styles.indicatorItem}>
-                <Text style={{color: this.state.colorPosition0}}>妹子</Text>
-              </View>
-              <View style={styles.indicatorItem}>
-                <Text style={{color: this.state.colorPosition1}}>汉子</Text>
-              </View>
-            </View>
-            <View style={styles.indicatorWrapper}>
-              <View style={{flex: this.state.leftFlex}}/>
-              <View style={styles.indicator}/>
-              <View style={{flex: 1 - this.state.leftFlex}}/>
-            </View>
-          </View>
-
-          <Swiper
-            onScroll ={this.onScroll.bind(this)}
-            scrollEventThrottle ={10}
-            onMomentumScrollEnd ={this._onMomentumScrollEnd}
-            loop={false}>
-            <ListView
-              style={{paddingLeft: 10, paddingRight: 10}}
-              dataSource={this.state.dataSource}
-              renderRow={this._renderItem.bind(this)}/>
-            <ListView
-              style={{paddingLeft: 10, paddingRight: 10}}
-              dataSource={this.state.dataSource}
-              renderRow={this._renderItem.bind(this)}/>
-          </Swiper>
-        </View>
+        <ScrollableTabView style={{marginTop: 64, backgroundColor: 'eeeeee'}}
+          tabBarUnderlineColor='red'
+          tabBarActiveTextColor='red'
+          >
+          <ListView
+            tabLabel='妹子'
+            style={{paddingLeft: 10, paddingRight: 10}}
+            dataSource={this.state.dataSource}
+            renderRow={this._renderItem.bind(this)}/>
+          <ListView
+            tabLabel='汉子'
+            style={{paddingLeft: 10, paddingRight: 10}}
+            dataSource={this.state.dataSource}
+            renderRow={this._renderItem.bind(this)}/>
+        </ScrollableTabView>
       </View>
     )
-  }
-
-  _refresh(){
-
   }
 
   _renderItem () {
@@ -132,25 +87,6 @@ let styles = StyleSheet.create({
   slidingIndicatorWrapper: {
     height: 40,
     flex: 1
-  },
-  indicatorItems: {
-    flex: 1,
-    flexDirection: 'row'
-  },
-  indicatorItem: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  indicatorWrapper: {
-    flexDirection: 'row',
-    height: 2,
-    paddingRight: 10,
-    paddingLeft: 10
-  },
-  indicator: {
-    flex: 1,
-    backgroundColor: 'red'
   },
   text: {
     color: '#fff',
