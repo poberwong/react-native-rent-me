@@ -1,27 +1,26 @@
 'use strict'
 import React from 'react-native'
 import NavigationBar from 'react-native-navigationbar'
-import Radio, {RadioButton} from 'react-native-simple-radio-button'
+import Radio from 'react-native-simple-radio-button'
 const {
   TouchableOpacity,
 	Text,
   Picker,
-  Alert,
   TextInput,
   View,
   Animated,
   ScrollView,
-	StyleSheet,
-  Dimensions
+	StyleSheet
 } = React
 
 export default class RentMe extends React.Component {
   state={
     animatedValue: new Animated.Value(0),
-    selectedSalary: 'ancle',
+    selectedSalary: '请选择',
     salary: '请选择',
     city: '请选择',
-    constellation: '请选择'
+    constellation: '请选择',
+    isToggled: false
   };
   render () {
     let backHidden = {isHide: true}
@@ -121,9 +120,7 @@ export default class RentMe extends React.Component {
           <View style={styles.itemContainer}>
             <Text style={styles.itemText}>  收    入</Text>
               <TouchableOpacity style={[styles.barCode, {backgroundColor: 'white', borderWidth: 1, borderColor:'grey'}]}
-                onPress={() => {
-                  this._toggle()
-              }}>
+                onPress={() => this._toggle()}>
               <Text>{this.state.salary}</Text>
             </TouchableOpacity>
           </View>
@@ -212,6 +209,11 @@ export default class RentMe extends React.Component {
           </View>
         </ScrollView>
         {this._getPicker()}
+        {
+          this.state.isToggled
+          ? <View style={{flex: 1, top: 0, left: 0, right: 0, bottom: 220, position: 'absolute', backgroundColor: 'transparent'}}/>
+          : null
+        }
       </View>
       )
   }
@@ -266,6 +268,9 @@ export default class RentMe extends React.Component {
         duration: 500
       }
     ).start()
+    this.setState({
+      isToggled: true
+    })
   }
 
   _hidePicker = (result) => {
@@ -278,7 +283,8 @@ export default class RentMe extends React.Component {
     ).start()
     if (result) {
       this.setState({
-        salary: this.state.selectedSalary
+        salary: this.state.selectedSalary,
+        isToggled: false
       })
     }
   }
