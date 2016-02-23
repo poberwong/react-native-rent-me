@@ -52,6 +52,7 @@ export default class HomePage extends React.Component {
     return (
       <View style={styles.homeContainer}
         tabLabel='首页'>
+        {this._getHeader()}
         <ScrollableTabView style={styles.homeContent}
           tabBarUnderlineHeight={2}
           tabBarTextSize={16}
@@ -84,16 +85,16 @@ export default class HomePage extends React.Component {
               <Text style={[styles.text, {textAlign: 'right'}]}>23  天蝎</Text>
             </View>
             <View style={styles.itemRow}>
-              <Text style={styles.text}>陕西 铜川</Text>
+              <Text style={styles.text}>天堂</Text>
               <Text style={[styles.text, {textAlign: 'center'}]}>Kiss</Text>
               <Text style={[styles.text, {textAlign: 'right'}]}>160cm</Text>
             </View>
             <View style={styles.itemRow}>
-              <Text style={[styles.text]}>职员</Text>
+              <Text style={[styles.text]}>天使</Text>
               <Text style={[styles.text, {color: 'red', textAlign: 'right'}]}>时薪: $250</Text>
             </View>
             <View style={[styles.itemRow, {height: 20}]}>
-              <Text style={styles.desc}>聊聊人生, 聊聊理想</Text>
+              <Text style={styles.desc}>对，我就是那个250，约么？</Text>
             </View>
           </View>
         </View>
@@ -107,6 +108,22 @@ export default class HomePage extends React.Component {
       passProps: {hello: 'world'}
     })
   };
+
+  _getHeader () {
+    return (
+      <View style={styles.header}>
+        <TouchableOpacity style={{flex: 1, alignItems: 'center', flexDirection: 'row'}}>
+          <Text style={{fontSize: 16, marginLeft: 10}}>Loca</Text>
+        </TouchableOpacity>
+        <View style={{flex: 3, borderRadius: 10, margin: 6, borderWidth: 1, borderColor: 'grey', justifyContent: 'center', paddingLeft: 10}}>
+          <Text>点击搜索妹纸吧</Text>
+        </View>
+        <TouchableOpacity style={{flex: 1, alignItems: 'center', flexDirection: 'row'}}>
+          <View style={{flex: 1}}/>
+          <Text style={{flex: 2, fontSize: 16}}>Filter</Text>
+        </TouchableOpacity>
+      </View>)
+  }
 }
 
 let styles = StyleSheet.create({
@@ -116,8 +133,12 @@ let styles = StyleSheet.create({
   homeContainer: {
     flex: 1
   },
+  header: {
+    marginTop: 24,
+    height: 40,
+    flexDirection: 'row'
+  },
   homeContent: {
-    marginTop: 64,
     backgroundColor: '#f5fcff'
   },
   text: {

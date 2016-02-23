@@ -2,10 +2,10 @@
 import React from 'react-native'
 import NavigationBar from 'react-native-navigationbar'
 import Radio, {RadioButton} from 'react-native-simple-radio-button'
+import Picker from 'react-native-picker'
 const {
   TouchableOpacity,
 	Text,
-  AlertIOS,
   TextInput,
   View,
   ScrollView,
@@ -80,7 +80,7 @@ export default class RentMe extends React.Component {
           <View style={{flexDirection: 'row', padding: 10}}>
             <Text style={styles.itemText}>性取向 </Text>
             <Radio
-              style={{width: 100, alignItems: 'center', marginLeft: 10}}
+              style={{width: 100, alignItems: 'center', marginLeft: 5}}
               radio_props={[{label: '异性恋', value: 0}, {label: '同性恋', value: 1}, {label: '双性恋', value: 2}]}
               initial={0}
               buttonColor='#2d85f3'
@@ -139,7 +139,7 @@ export default class RentMe extends React.Component {
           </View>
           <View style={styles.dividerLine}/>
           <View style={{flexDirection: 'row', padding: 10}}>
-            <Text style={styles.itemText}>性取向 </Text>
+            <Text style={styles.itemText}>出租目的 </Text>
             <Radio
               style={{width: 230, alignItems: 'center', marginLeft: 10}}
               radio_props={[{label: '赚点租金，反正闲着也是闲着', value: 0}, {label: '想交朋友，有没有租金无所谓', value: 1}]}
@@ -174,13 +174,14 @@ export default class RentMe extends React.Component {
               <TouchableOpacity style={[styles.barCode, {marginTop: 5, marginBottom: 5, paddingLeft: 50, paddingRight: 50}]}>
                 <Text style={{color: 'white'}}>选择第三张照片</Text>
               </TouchableOpacity>
-            </View>           
+            </View>
           </View>
         </ScrollView>
       </View>
       )
   }
-  _getGiftedForm () {
+  _onPressHandle () {
+    this.picker.toggle()
   }
 }
 
