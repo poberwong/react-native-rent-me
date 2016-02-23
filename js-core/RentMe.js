@@ -2,17 +2,27 @@
 import React from 'react-native'
 import NavigationBar from 'react-native-navigationbar'
 import Radio, {RadioButton} from 'react-native-simple-radio-button'
-import Picker from 'react-native-picker'
 const {
   TouchableOpacity,
 	Text,
+  Picker,
+  Alert,
   TextInput,
   View,
+  Animated,
   ScrollView,
-	StyleSheet
+	StyleSheet,
+  Dimensions
 } = React
 
 export default class RentMe extends React.Component {
+  state={
+    animatedValue: new Animated.Value(0),
+    selectedSalary: 'ancle',
+    salary: '请选择',
+    city: '请选择',
+    constellation: '请选择'
+  };
   render () {
     let backHidden = {isHide: true}
     return (
@@ -109,6 +119,30 @@ export default class RentMe extends React.Component {
           </View>
           <View style={styles.dividerLine}/>
           <View style={styles.itemContainer}>
+            <Text style={styles.itemText}>  收    入</Text>
+              <TouchableOpacity style={[styles.barCode, {backgroundColor: 'white', borderWidth: 1, borderColor:'grey'}]}
+                onPress={() => {
+                  this._toggle()
+              }}>
+              <Text>{this.state.salary}</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.dividerLine}/>
+          <View style={styles.itemContainer}>
+            <Text style={styles.itemText}>  城    市</Text>
+              <TouchableOpacity style={[styles.barCode, {backgroundColor: 'white', borderWidth: 1, borderColor:'grey'}]}>
+              <Text>请选择</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.dividerLine}/>
+          <View style={styles.itemContainer}>
+            <Text style={styles.itemText}>  星    座</Text>
+              <TouchableOpacity style={[styles.barCode, {backgroundColor: 'white', borderWidth: 1, borderColor:'grey'}]}>
+              <Text>请选择</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.dividerLine}/>
+          <View style={styles.itemContainer}>
             <Text style={styles.itemText}>  身    高</Text>
             <TextInput
               style={styles.textInput}
@@ -117,7 +151,7 @@ export default class RentMe extends React.Component {
               autoFocus={true}
               textAlign='left'/>
           </View>
-
+          <View style={styles.dividerLine}/>
           <View style={styles.itemContainer}>
             <Text style={styles.itemText}>  出租范围</Text>
             <TextInput
@@ -127,7 +161,7 @@ export default class RentMe extends React.Component {
               autoFocus={true}
               textAlign='left'/>
           </View>
-
+          <View style={styles.dividerLine}/>
           <View style={styles.itemContainer}>
             <Text style={styles.itemText}>  定     价</Text>
             <TextInput
@@ -164,8 +198,8 @@ export default class RentMe extends React.Component {
           <View style={styles.dividerLine}/>
           <View style={{flexDirection: 'row', padding: 10}}>
             <Text style={[styles.itemText, {marginTop: 5}]}>  照片</Text>
-            <View>
-              <TouchableOpacity style={[styles.barCode, {marginTop: 5, marginBottom: 5, paddingLeft: 50, paddingRight: 50}]}>
+            <View style={{flex: 1}}>
+              <TouchableOpacity style={[styles.barCode]}>
                 <Text style={{color: 'white'}}>选择第一张照片</Text>
               </TouchableOpacity>
               <TouchableOpacity style={[styles.barCode, {marginTop: 5, marginBottom: 5, paddingLeft: 50, paddingRight: 50}]}>
@@ -177,11 +211,76 @@ export default class RentMe extends React.Component {
             </View>
           </View>
         </ScrollView>
+        {this._getPicker()}
       </View>
       )
   }
-  _onPressHandle () {
-    this.picker.toggle()
+
+  _getPicker (data) {
+    return (
+      <Animated.View
+        style={{
+          height: 220,
+          backgroundColor: '#f5fcff',
+          position: 'absolute',
+          bottom: 0,
+          right: 0,
+          left: 0,
+          transform: [{
+            translateY: this.state.animatedValue.interpolate({
+              inputRange: [0, 1],
+              outputRange: [220, 0]  // 0 : 150, 0.5 : 75, 1 : 0
+            })
+          }]
+        }}>
+        <View style={{height: 30}}>
+          <TouchableOpacity style={{position: 'absolute', left: 15, bottom: 0}}
+            onPress={() => this._hidePicker(false)}>
+            <Text style={{fontSize: 16}}>Cancle</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={{position: 'absolute', right: 15, bottom: 0}}
+            onPress={() => this._hidePicker(true)}>
+            <Text style={{fontSize: 16}}>Done</Text>
+          </TouchableOpacity>
+        </View>
+        <Picker
+          selectedValue={this.state.selectedSalary}
+          onValueChange={(salary) => { this.setState({selectedSalary: salary}) }}>
+          <Picker.Item label="Java" value="java" />
+          <Picker.Item label="JavaScript" value="js" />
+          <Picker.Item label="handle" value="hd" />
+          <Picker.Item label="ancle" value="ac" />
+          <Picker.Item label="engineer" value="eg" />
+          <Picker.Item label="computer" value="cp" />
+        </Picker>
+      </Animated.View>
+    )
+  }
+
+  _toggle () {
+    Animated.timing(
+      this.state.animatedValue,
+      {
+        toValue: 1,
+        duration: 500
+      }
+    ).start()
+  }
+
+  _hidePicker = (result) => {
+    Animated.timing(
+      this.state.animatedValue,
+      {
+        toValue: 0,
+        duration: 500
+      }
+    ).start()
+    if (result) {
+      this.setState({
+        salary: this.state.selectedSalary
+      })
+    }
   }
 }
 
@@ -210,9 +309,9 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   barCode: {
-    marginLeft: 40,
-    paddingRight: 30,
-    paddingLeft: 30,
+    flex: 1,
+    marginLeft: 30,
+    marginRight: 30,
     paddingTop: 10,
     paddingBottom: 10,
     borderRadius: 3,
