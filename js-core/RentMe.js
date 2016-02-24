@@ -365,7 +365,6 @@ const styles = StyleSheet.create({
     bottom: 0
   },
   choosePic: {
-    backgroundColor: 'white',
     borderWidth: 1,
     borderColor: 'grey'
   },
