@@ -269,7 +269,7 @@ export default class RentMe extends React.Component {
       this.state.animatedValue,
       {
         toValue: 1,
-        duration: 500
+        duration: 400
       }
     ).start()
   }
