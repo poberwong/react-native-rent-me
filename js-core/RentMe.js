@@ -16,12 +16,14 @@ const {
 export default class RentMe extends React.Component {
   state={
     animatedValue: new Animated.Value(0),
-    selectedSalary: '请选择',
+    selectedItem: '请选择',
     salary: '请选择',
     city: '请选择',
     constellation: '请选择',
+    pickerData: [{key: '请选择', value: '请选择'}],
     isToggled: false
   };
+
   render () {
     let backHidden = {isHide: true}
     return (
@@ -120,22 +122,24 @@ export default class RentMe extends React.Component {
           <View style={styles.itemContainer}>
             <Text style={styles.itemText}>  收    入</Text>
               <TouchableOpacity style={[styles.barCode, {backgroundColor: 'white', borderWidth: 1, borderColor:'grey'}]}
-                onPress={() => this._toggle()}>
+                onPress={() => this._toggle([{key: 'hello', value: '$200000000'}], 0)}>
               <Text>{this.state.salary}</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.dividerLine}/>
           <View style={styles.itemContainer}>
             <Text style={styles.itemText}>  城    市</Text>
-              <TouchableOpacity style={[styles.barCode, {backgroundColor: 'white', borderWidth: 1, borderColor:'grey'}]}>
-              <Text>请选择</Text>
+              <TouchableOpacity style={[styles.barCode, {backgroundColor: 'white', borderWidth: 1, borderColor:'grey'}]}
+                onPress={() => this._toggle([{key: 'hello', value: 'china'}], 1)}>
+              <Text>{this.state.city}</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.dividerLine}/>
           <View style={styles.itemContainer}>
             <Text style={styles.itemText}>  星    座</Text>
-              <TouchableOpacity style={[styles.barCode, {backgroundColor: 'white', borderWidth: 1, borderColor:'grey'}]}>
-              <Text>请选择</Text>
+              <TouchableOpacity style={[styles.barCode, {backgroundColor: 'white', borderWidth: 1, borderColor:'grey'}]}
+                onPress={() => this._toggle([{key: 'hello', value: '天  蝎'}], 2)}>
+              <Text>{this.state.constellation}</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.dividerLine}/>
@@ -208,33 +212,27 @@ export default class RentMe extends React.Component {
             </View>
           </View>
         </ScrollView>
-        {this._getPicker()}
+        {this._getPicker(this.state.pickerData)}
         {
           this.state.isToggled
-          ? <View style={{flex: 1, top: 0, left: 0, right: 0, bottom: 220, position: 'absolute', backgroundColor: 'transparent'}}/>
+          ? <View style={styles.nullView}/>
           : null
         }
       </View>
       )
   }
 
-  _getPicker (data) {
+  _getPicker (data) { // 对象数组
     return (
       <Animated.View
-        style={{
-          height: 220,
-          backgroundColor: '#f5fcff',
-          position: 'absolute',
-          bottom: 0,
-          right: 0,
-          left: 0,
+        style={[styles.picker, {
           transform: [{
             translateY: this.state.animatedValue.interpolate({
               inputRange: [0, 1],
               outputRange: [220, 0]  // 0 : 150, 0.5 : 75, 1 : 0
             })
-          }]
-        }}>
+          }]}
+        ]}>
         <View style={{height: 30}}>
           <TouchableOpacity style={{position: 'absolute', left: 15, bottom: 0}}
             onPress={() => this._hidePicker(false)}>
@@ -247,20 +245,25 @@ export default class RentMe extends React.Component {
           </TouchableOpacity>
         </View>
         <Picker
-          selectedValue={this.state.selectedSalary}
-          onValueChange={(salary) => { this.setState({selectedSalary: salary}) }}>
-          <Picker.Item label="Java" value="java" />
-          <Picker.Item label="JavaScript" value="js" />
-          <Picker.Item label="handle" value="hd" />
-          <Picker.Item label="ancle" value="ac" />
-          <Picker.Item label="engineer" value="eg" />
-          <Picker.Item label="computer" value="cp" />
+          selectedValue={this.state.selectedItem}
+          onValueChange={(selectedItem) => { this.setState({selectedItem}) }}>
+          {this._genItems(data)}
         </Picker>
       </Animated.View>
     )
   }
 
-  _toggle () {
+  _genItems (data) { // {key: 'ooo', value: 'xxx'}
+    return data.map((itemData, index) => <Picker.Item key={index} label={itemData.key} value={itemData.value} />)
+  }
+
+  _toggle (data, activedItem) {
+    this.activedItem = activedItem
+
+    this.setState({
+      isToggled: true, // 判断是否消隐遮盖视图。最好将该步骤写到动画完成之后。且不能和是否加载Picker 共用一个变量
+      pickerData: data
+    })
     Animated.timing(
       this.state.animatedValue,
       {
@@ -268,31 +271,53 @@ export default class RentMe extends React.Component {
         duration: 500
       }
     ).start()
-    this.setState({
-      isToggled: true
-    })
   }
 
-  _hidePicker = (result) => {
+  _hidePicker = (isSelected) => {
     Animated.timing(
       this.state.animatedValue,
       {
         toValue: 0,
         duration: 500
       }
-    ).start()
-    if (result) {
-      this.setState({
-        salary: this.state.selectedSalary,
-        isToggled: false
-      })
-    }
+    ).start(() => {
+      console.log('aaa'+ this.activedItem)
+      switch (this.activedItem) {
+        case 0: {
+          this.setState({
+            isToggled: false,
+            salary : isSelected ? this.state.selectedItem : this.state.salary
+          })
+        } break
+        case 1: {
+          this.setState({
+            isToggled: false,
+            city : isSelected ? this.state.selectedItem : this.state.city
+          })
+        } break
+        case 2: {
+          this.setState({
+            isToggled: false,
+            constellation : isSelected ? this.state.selectedItem : this.state.constellation
+          })
+        }
+      }
+    })
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  nullView: {
+    flex: 1,
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 220,
+    position: 'absolute',
+    backgroundColor: 'transparent'
   },
   content: {
     flex: 1,
@@ -338,6 +363,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginLeft: 20,
     flex: 1
+  },
+  picker: {
+    height: 220,
+    backgroundColor: '#f5fcff',
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    left: 0
   },
   dividerLine: {
     height: 0.5,

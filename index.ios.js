@@ -3,11 +3,6 @@ import React from 'react-native'
 import HomePage from './js-core/HomePage.js'
 const {
   AppRegistry,
-  ListView,
-  View,
-  Image,
-  Text,
-  StyleSheet,
   Navigator
 } = React
 
