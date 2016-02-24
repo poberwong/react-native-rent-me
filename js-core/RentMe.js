@@ -17,10 +17,10 @@ export default class RentMe extends React.Component {
   state={
     animatedValue: new Animated.Value(0),
     selectedItem: '请选择',
+    pickerData: ['请选择'],
     salary: '请选择',
     city: '请选择',
     constellation: '请选择',
-    pickerData: [{key: '请选择', value: '请选择'}],
     isToggled: false
   };
 
@@ -122,7 +122,7 @@ export default class RentMe extends React.Component {
           <View style={styles.itemContainer}>
             <Text style={styles.itemText}>  收    入</Text>
               <TouchableOpacity style={[styles.barCode, {backgroundColor: 'white', borderWidth: 1, borderColor:'grey'}]}
-                onPress={() => this._toggle([{key: 'hello', value: '$200000000'}], 0)}>
+                onPress={() => this._toggle(['请选择', '5000元以下', '5000 ~ 10000元', '10000 ~ 20000元', '200000元以上'], 0)}>
               <Text>{this.state.salary}</Text>
             </TouchableOpacity>
           </View>
@@ -130,15 +130,15 @@ export default class RentMe extends React.Component {
           <View style={styles.itemContainer}>
             <Text style={styles.itemText}>  城    市</Text>
               <TouchableOpacity style={[styles.barCode, {backgroundColor: 'white', borderWidth: 1, borderColor:'grey'}]}
-                onPress={() => this._toggle([{key: 'hello', value: 'china'}], 1)}>
+                onPress={() => this._toggle(['请选择', '北 京', '上 海', '广 州', '深 圳', '天 津'], 1)}>
               <Text>{this.state.city}</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.dividerLine}/>
           <View style={styles.itemContainer}>
             <Text style={styles.itemText}>  星    座</Text>
-              <TouchableOpacity style={[styles.barCode, {backgroundColor: 'white', borderWidth: 1, borderColor:'grey'}]}
-                onPress={() => this._toggle([{key: 'hello', value: '天  蝎'}], 2)}>
+              <TouchableOpacity style={[styles.barCode, {backgroundColor: 'white', borderWidth: 1, borderColor: 'grey'}]}
+                onPress={() => this._toggle(['请选择', '天 蝎', '摩 羯', '巨 蟹', '处 女', '天 秤', '双 子', '双 鱼', '金 牛', '射 手', '水 萍', '双 鱼', '白 羊'], 2)}>
               <Text>{this.state.constellation}</Text>
             </TouchableOpacity>
           </View>
@@ -254,7 +254,7 @@ export default class RentMe extends React.Component {
   }
 
   _genItems (data) { // {key: 'ooo', value: 'xxx'}
-    return data.map((itemData, index) => <Picker.Item key={index} label={itemData.key} value={itemData.value} />)
+    return data.map((itemData, index) => <Picker.Item key={index} label={itemData} value={itemData} />)
   }
 
   _toggle (data, activedItem) {
