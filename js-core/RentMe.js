@@ -215,7 +215,8 @@ export default class RentMe extends React.Component {
         {this._getPicker(this.state.pickerData)}
         {
           this.state.isToggled
-          ? <View style={styles.nullView}/>
+          ? <TouchableOpacity activeOpacity={1} style={styles.nullView}
+          onPress={() => this._hidePicker(false)}/>
           : null
         }
       </View>
