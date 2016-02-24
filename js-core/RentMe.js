@@ -78,7 +78,7 @@ export default class RentMe extends React.Component {
           <View style={styles.itemContainer}>
             <Text style={styles.itemText}>  性     别</Text>
             <Radio
-              style={{width: 200, alignItems: 'center', marginLeft: 20}}
+              style={styles.radio0}
               radio_props={[{label: '汉子', value: 1}, {label: '妹子', value: 0}]}
               initial={0}
               buttonColor='#2d85f3'
@@ -91,7 +91,7 @@ export default class RentMe extends React.Component {
           <View style={{flexDirection: 'row', padding: 10}}>
             <Text style={styles.itemText}>性取向 </Text>
             <Radio
-              style={{width: 100, alignItems: 'center', marginLeft: 5}}
+              style={styles.radio1}
               radio_props={[{label: '异性恋', value: 0}, {label: '同性恋', value: 1}, {label: '双性恋', value: 2}]}
               initial={0}
               buttonColor='#2d85f3'
@@ -121,7 +121,7 @@ export default class RentMe extends React.Component {
           <View style={styles.dividerLine}/>
           <View style={styles.itemContainer}>
             <Text style={styles.itemText}>  收    入</Text>
-              <TouchableOpacity style={[styles.barCode, {backgroundColor: 'white', borderWidth: 1, borderColor:'grey'}]}
+              <TouchableOpacity style={[styles.barCode, styles.pickerTrigger]}
                 onPress={() => this._toggle(['请选择', '5000元以下', '5000 ~ 10000元', '10000 ~ 20000元', '200000元以上'], 0)}>
               <Text>{this.state.salary}</Text>
             </TouchableOpacity>
@@ -129,7 +129,7 @@ export default class RentMe extends React.Component {
           <View style={styles.dividerLine}/>
           <View style={styles.itemContainer}>
             <Text style={styles.itemText}>  城    市</Text>
-              <TouchableOpacity style={[styles.barCode, {backgroundColor: 'white', borderWidth: 1, borderColor:'grey'}]}
+              <TouchableOpacity style={[styles.barCode, styles.pickerTrigger]}
                 onPress={() => this._toggle(['请选择', '北 京', '上 海', '广 州', '深 圳', '天 津'], 1)}>
               <Text>{this.state.city}</Text>
             </TouchableOpacity>
@@ -137,7 +137,7 @@ export default class RentMe extends React.Component {
           <View style={styles.dividerLine}/>
           <View style={styles.itemContainer}>
             <Text style={styles.itemText}>  星    座</Text>
-              <TouchableOpacity style={[styles.barCode, {backgroundColor: 'white', borderWidth: 1, borderColor: 'grey'}]}
+              <TouchableOpacity style={[styles.barCode, styles.pickerTrigger]}
                 onPress={() => this._toggle(['请选择', '天 蝎', '摩 羯', '巨 蟹', '处 女', '天 秤', '双 子', '双 鱼', '金 牛', '射 手', '水 萍', '双 鱼', '白 羊'], 2)}>
               <Text>{this.state.constellation}</Text>
             </TouchableOpacity>
@@ -176,7 +176,7 @@ export default class RentMe extends React.Component {
           <View style={{flexDirection: 'row', padding: 10}}>
             <Text style={styles.itemText}>出租目的 </Text>
             <Radio
-              style={{width: 230, alignItems: 'center', marginLeft: 10}}
+              style={styles.radio2}
               radio_props={[{label: '赚点租金，反正闲着也是闲着', value: 0}, {label: '想交朋友，有没有租金无所谓', value: 1}]}
               initial={0}
               buttonColor='#2d85f3'
@@ -186,7 +186,7 @@ export default class RentMe extends React.Component {
           </View>
           <View style={styles.dividerLine}/>
           <View style={{margin: 10}}>
-            <View style={{height: 30, justifyContent: 'center', alignItems: 'center'}}>
+            <View style={styles.meeting}>
               <Text>想和雇主来一场怎样的约会</Text>
             </View>
             <TextInput
@@ -200,13 +200,13 @@ export default class RentMe extends React.Component {
           <View style={{flexDirection: 'row', padding: 10}}>
             <Text style={[styles.itemText, {marginTop: 5}]}>  照片</Text>
             <View style={{flex: 1}}>
-              <TouchableOpacity style={[styles.barCode]}>
+              <TouchableOpacity style={[styles.barCode, styles.choosePic]}>
                 <Text style={{color: 'white'}}>选择第一张照片</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={[styles.barCode, {marginTop: 5, marginBottom: 5, paddingLeft: 50, paddingRight: 50}]}>
+              <TouchableOpacity style={[styles.barCode, styles.choosePic1, {marginTop: 5}]}>
                 <Text style={{color: 'white'}}>选择第二张照片</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={[styles.barCode, {marginTop: 5, marginBottom: 5, paddingLeft: 50, paddingRight: 50}]}>
+              <TouchableOpacity style={[styles.barCode, styles.choosePic1]}>
                 <Text style={{color: 'white'}}>选择第三张照片</Text>
               </TouchableOpacity>
             </View>
@@ -235,12 +235,12 @@ export default class RentMe extends React.Component {
           }]}
         ]}>
         <View style={{height: 30}}>
-          <TouchableOpacity style={{position: 'absolute', left: 15, bottom: 0}}
+          <TouchableOpacity style={[styles.pickerButton, {left: 15}]}
             onPress={() => this._hidePicker(false)}>
             <Text style={{fontSize: 16}}>Cancle</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={{position: 'absolute', right: 15, bottom: 0}}
+          <TouchableOpacity style={styles.pickerButton}
             onPress={() => this._hidePicker(true)}>
             <Text style={{fontSize: 16}}>Done</Text>
           </TouchableOpacity>
@@ -282,7 +282,6 @@ export default class RentMe extends React.Component {
         duration: 500
       }
     ).start(() => {
-      console.log('aaa'+ this.activedItem)
       switch (this.activedItem) {
         case 0: {
           this.setState({
@@ -334,6 +333,46 @@ const styles = StyleSheet.create({
   noticeText: {
     fontSize: 14,
     color: '#D66f0b'
+  },
+  radio0: {
+    width: 200,
+    alignItems: 'center',
+    marginLeft: 20
+  },
+  radio1: {
+    width: 100,
+    alignItems: 'center',
+    marginLeft: 5
+  },
+  radio2: {
+    width: 230,
+    alignItems: 'center',
+    marginLeft: 10
+  },
+  meeting: {
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  pickerTrigger: {
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: 'grey'
+  },
+  pickerButton: {
+    position: 'absolute',
+    right: 15,
+    bottom: 0
+  },
+  choosePic: {
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: 'grey'
+  },
+  choosePic1: {
+    marginBottom: 5,
+    paddingLeft: 50,
+    paddingRight: 50
   },
   itemHeader: {
     height: 60,
