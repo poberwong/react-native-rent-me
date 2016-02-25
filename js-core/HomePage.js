@@ -112,15 +112,14 @@ export default class HomePage extends React.Component {
   _getHeader () {
     return (
       <View style={styles.header}>
-        <TouchableOpacity style={{flex: 1, alignItems: 'center', flexDirection: 'row'}}>
-          <Text style={{fontSize: 16, marginLeft: 10}}>Loca</Text>
+        <TouchableOpacity style={{height: 40, width: 60, alignItems: 'center', justifyContent: 'center'}}>
+          <Text style={{fontSize: 16}}>Loca</Text>
         </TouchableOpacity>
-        <View style={{flex: 3, borderRadius: 10, margin: 6, borderWidth: 1, borderColor: 'grey', justifyContent: 'center', paddingLeft: 10}}>
-          <Text>点击搜索妹纸吧</Text>
+        <View style={{flex: 1, borderRadius: 10, margin: 6, borderWidth: 1, borderColor: 'grey', justifyContent: 'center', paddingLeft: 10}}>
+          <Text style={{color: 'grey'}}>点击搜索妹纸吧</Text>
         </View>
-        <TouchableOpacity style={{flex: 1, alignItems: 'center', flexDirection: 'row'}}>
-          <View style={{flex: 1}}/>
-          <Text style={{flex: 2, fontSize: 16}}>Filter</Text>
+        <TouchableOpacity style={{height: 40, width: 60, alignItems: 'center', justifyContent: 'center'}}>
+          <Text style={{fontSize: 16}}>Filter</Text>
         </TouchableOpacity>
       </View>)
   }
